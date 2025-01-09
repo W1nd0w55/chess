@@ -3,12 +3,12 @@ pygame.init()
 
 class Piece:
     def __init__(
-    self,
-    screen,
-    piece: str,
-    color: str,
-    file: int,
-    rank: int
+        self,
+        screen,
+        piece: str,
+        color: str,
+        file: int,
+        rank: int
     ):
         self.screen = screen
         self.image = pygame.image.load(f'./images/{color}_{piece}.png')
@@ -81,12 +81,13 @@ def place_all(screen):
 
 def render_all(pieces):
     for i in pieces:
-        # Render the piece
+        # Render the pieces
         i.render()
 
 def move(pieces):
     mouse_pos = pygame.mouse.get_pos()
     for i in pieces:
         if i.rect.collidepoint(mouse_pos):
+            # TODO: remove this
             i.rank = random.randint(1, 8)
             i.file = random.randint(1, 8)
