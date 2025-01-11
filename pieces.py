@@ -1,4 +1,5 @@
-import pygame, random
+import pygame
+from settings import HIGHLIGHT
 pygame.init()
 
 class Piece:
@@ -10,17 +11,25 @@ class Piece:
         file: int,
         rank: int
     ):
+        # Get information
         self.screen = screen
-        self.image = pygame.image.load(f'./images/{color}_{piece}.png')
+        self.piece = piece
+        self.color = color
+        # Get image
+        self.image = pygame.image.load(f'./images/{self.color}_{self.piece}.png')
+        # Get position on the board
         self.file = file
         self.rank = rank
         self.rect = self.image.get_rect()
+        self.selected = False
 
     def render(self):
         # Set piece position
         self.rect.right = self.file * 75
         self.rect.bottom = 600
         for _ in range(1, self.rank): self.rect.bottom -= 75
+        # Render highlight
+        if self.selected: pygame.draw.rect(self.screen, HIGHLIGHT, self.rect)
         # Render the piece
         self.screen.blit(self.image, self.rect)
 
@@ -84,10 +93,18 @@ def render_all(pieces):
         # Render the pieces
         i.render()
 
-def move(pieces):
+def move(screen, pieces):
+    # Get mouse position
     mouse_pos = pygame.mouse.get_pos()
     for i in pieces:
-        if i.rect.collidepoint(mouse_pos):
-            # TODO: remove this
-            i.rank = random.randint(1, 8)
-            i.file = random.randint(1, 8)
+        # Highlight piece
+        if i.rect.collidepoint(mouse_pos) and not i.selected:i.selected = True
+        else:
+            # Un-highlight piece
+            if not i.selected: pass
+            else:
+                # Move piece
+                i.selected = False
+                target_file = 1 + (mouse_pos[0] // 75)
+                target_rank = 8 - (mouse_pos[1] // 75)
+                (i.file, i.rank) = (target_file, target_rank)

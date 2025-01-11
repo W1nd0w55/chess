@@ -1,0 +1,5 @@
+RESOLUTION = (600, 600)
+FPS = 60
+BLACK = (0, 0, 0)
+HIGHLIGHT = (222, 199, 49)
+NAME = 'Chess'

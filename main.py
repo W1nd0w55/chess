@@ -1,21 +1,21 @@
 import pygame, controls, elements, pieces
+from settings import *
 pygame.init()
 
 def main():
     # Game settings
-    screen = pygame.display.set_mode((600, 600))
-    pygame.display.set_caption('Chess')
+    screen = pygame.display.set_mode(RESOLUTION)
+    pygame.display.set_caption(NAME)
     board = elements.Board(screen)
     p = pieces.place_all(screen)
     clock = pygame.time.Clock()
-    fps = 60
     # Main loop
     while True:
-        screen.fill((0, 0, 0))
+        screen.fill(BLACK)
         board.render()
         pieces.render_all(p)
-        controls.events(p)
+        controls.events(screen, p)
         pygame.display.update()
-        clock.tick(fps)
+        clock.tick(FPS)
 
 if __name__ == '__main__': main()
